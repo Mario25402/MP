@@ -1,5 +1,7 @@
-// Estructura
+#ifndef P1_H
+#define P1_H
 
+// Estructura
 struct Tiempo{
 	
 	// Variables
@@ -63,3 +65,5 @@ struct Tiempo{
 		return mayor;
 	}
 };
+
+#endif
