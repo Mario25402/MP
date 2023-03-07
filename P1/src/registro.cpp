@@ -7,18 +7,18 @@ using namespace std;
 // Funciones
 
 float tiempoEnTramo (Registro r){
-	Tiempo salida = r.entrada - r.salida;
+	r.entrada - r.salida;
 
-	return tiempoEnMinutos(salida);
+	return tiempoEnMinutos(r.entrada);
 }
 
-float velocidadPromedio (const Registro r){
+float velocidadPromedio (const Registro & r){
 	float tiempo = (tiempoEnTramo(r) / 60);
 
 	return (LONG_TRAMO / tiempo);
 }
 
-void corrigeRegistro (Registro r){
+void corrigeRegistro (Registro & r){
 	if (r.entrada > r.salida){
 		Tiempo aux = r.entrada;
 		r.entrada = r.salida;
@@ -26,14 +26,13 @@ void corrigeRegistro (Registro r){
 	}
 }
 
-string controlVehiculo (Registro r){
+string controlVehiculo (const Registro & r){
 	float vel = velocidadPromedio(r);
 
 	string salida = "Vehículo matricula " + r.matricula +
 				    ", velocidad promedio " + to_string(vel) + " km/h";
 
 	if (vel > VELOC_LIMITE) salida += ". MULTA";
-	salida = salida + "\n";
 
 	return salida;
 }
@@ -47,7 +46,7 @@ string toString (Registro r){
 
 //////////
 
-void extraeDatos (ControlDiario c, Registro excedido[], Registro correcto[],
+void extraeDatos (const ControlDiario & c, Registro excedido[], Registro correcto[],
 				 int & util_excedido, int & util_correcto){
 	util_excedido = 0;
 	util_correcto = 0;

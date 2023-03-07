@@ -67,9 +67,12 @@ int main(){
 
 	///////////////////////////////////
 
+	ControlDiario c;
+
 	int num_coches; 
 	cin >> num_coches;
 
+	c.util = num_coches;
 	Registro r[num_coches];
 
 	for (int i = 0; i < num_coches; ++i){
@@ -84,22 +87,19 @@ int main(){
 
 		cin >> matricula;
 		r[i].matricula = matricula;
+
+		corrigeRegistro(r[i]);
+		c.conjunto[i] = r[i];
 	}
 
 	///////////////////////////////////
 
-	cout << "Datos coche nº4: " << toString(r[3]) << endl
-		 << tiempoEnTramo(r[3]) << endl;
-
-	cout << controlVehiculo(r[16]) << endl;
+	cout << "Datos coche nº4: " << toString(r[7]) << endl
+		 << "Tiempo en tramo: " << tiempoEnTramo(r[7]) << " minutos" << endl;
 
 	///////////////////////////////////
 
-	ControlDiario c;
-	//c.conjunto = r;
-	c.util = num_coches;
-
-	int util_multa = 0, util_no_multa = 0;
+	int util_multa, util_no_multa;
 	Registro multa[util_multa];
 	Registro no_multa[util_no_multa];
 
@@ -107,14 +107,14 @@ int main(){
 
 	extraeDatos(c, multa, no_multa, util_multa, util_no_multa);
 
-	for (int i = 0; i << util_multa; i++){
-		cout << "Vehiculo multado: " << toString(multa[i]) << endl;
+	for (int i = 0; i < util_multa; i++){
+		cout << "\nMultado: " << controlVehiculo(multa[i]) << endl;
 	}
 
 	cout << endl;
 
-	for (int i = 0; i << util_no_multa; i++){
-		cout << "Vehiculo multado: " << toString(no_multa[i]) << endl;
+	for (int i = 0; i < util_no_multa; i++){
+		cout << "No multado: " << controlVehiculo(no_multa[i]) << endl;
 	}
 
 	return 0;

@@ -79,17 +79,15 @@ struct Tiempo{
 		return mayor;
 	}
 
-	Tiempo operator - (Tiempo t){
-		if (*this > t){
+	void operator - (Tiempo &t){
+		if (t > *this){
 			int seg1 = ((this->horas * H_TO_S) + (this->minutos * LIM_MIN_SEG) + this->segundos);
 			int seg2 = ((t.horas * H_TO_S) + (t.minutos * LIM_MIN_SEG) + t.segundos);
 
-			seg1 -= seg2;
+			seg2 -= seg1;
 			
-			Tiempo t2 = {0};
-			t2 += seg1;
-
-			return t2;
+			*this = {0};
+			*this += seg2;
 		}
 	}
 };
@@ -97,12 +95,13 @@ struct Tiempo{
 /*****************************************************************************/
 // Cabeceras
 
-bool esPosterior (Tiempo t1, Tiempo t2);
-bool sonIguales (Tiempo t1, Tiempo t2);
-int tiempoEnSegundos (Tiempo t);
-Tiempo & segundosEnTiempo (int s);
-void calcularNuevoTiempo (Tiempo & t, int s);
-std::string toString(Tiempo t);
-float tiempoEnMinutos (Tiempo t);
+void corrigeValor(Tiempo & t);
+bool esPosterior (Tiempo & t1, Tiempo & t2);
+bool sonIguales (Tiempo & t1, Tiempo & t2);
+int tiempoEnSegundos (const Tiempo & t);
+Tiempo & segundosEnTiempo (const int s);
+void calcularNuevoTiempo (Tiempo & t, const int s);
+std::string toString(Tiempo & t);
+float tiempoEnMinutos (const Tiempo & t);
 
 #endif

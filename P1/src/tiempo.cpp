@@ -6,45 +6,66 @@ using namespace std;
 /*****************************************************************************/
 // Funciones
 
-bool esPosterior (Tiempo t1, Tiempo t2){
+void corrigeValor (Tiempo & t){
+	if (t.horas >= 0 and t.minutos >= 0 and t.segundos >= 0){
+		if (t.segundos >= LIM_MIN_SEG){
+			t.segundos %= LIM_MIN_SEG;
+			t.minutos += t.minutos / LIM_MIN_SEG;
+		}
+
+		if (t.minutos >= LIM_MIN_SEG){
+			t.minutos %= LIM_MIN_SEG;
+			t.horas += t.minutos / LIM_MIN_SEG;
+		}
+
+		if (t.horas >= LIM_HOR) t.horas %= LIM_HOR;
+	}
+
+	else{
+		t.horas = 0;
+		t.minutos = 0;
+		t.segundos = 0;
+	}
+}
+
+bool esPosterior (Tiempo & t1, Tiempo & t2){
+	corrigeValor(t1);
+	corrigeValor(t2);
+
 	return t1 > t2;
 }
 
-bool sonIguales (Tiempo t1, Tiempo t2){
+bool sonIguales (Tiempo & t1, Tiempo & t2){
+	corrigeValor(t1);
+	corrigeValor(t2);
+
 	return t1 == t2;
 }
 
-int tiempoEnSegundos (Tiempo t){
+int tiempoEnSegundos (const Tiempo & t){
 	return ((t.horas * H_TO_S) + (t.minutos * LIM_MIN_SEG) + t.segundos);
 }
 
-Tiempo & segundosEnTiempo (int s){
+Tiempo & segundosEnTiempo (const int s){
 	Tiempo t = {0};
 
 	return t += s;
 }
 
-void calcularNuevoTiempo (Tiempo & t, int s){
+void calcularNuevoTiempo (Tiempo & t, const int s){
 	t += s;
 }
 
-string toString (Tiempo t){
+string toString (Tiempo & t){
 	string salida;
 
-	if (t.horas < 0 or t.minutos < 0 or t.segundos < 0){
-		salida = "##:##:##";
-	}
-
-	else{
-		if (t.horas >= LIM_HOR) t.horas %= LIM_HOR;
-
-		salida = to_string(t.horas) + ':' + to_string(t.minutos)
-	   		   + ':' + to_string(t.segundos);
-	}
+	corrigeValor(t);
+	salida = to_string(t.horas) + ':' + to_string(t.minutos)
+   		   + ':' + to_string(t.segundos);
 
 	return salida;
 }
 
-float tiempoEnMinutos (Tiempo t){
+float tiempoEnMinutos (const Tiempo & t){
 	return ((t.horas * LIM_MIN_SEG) + t.minutos + (t.segundos/LIM_MIN_SEG));
 }
