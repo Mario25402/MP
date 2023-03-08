@@ -52,16 +52,16 @@ struct Tiempo{
 		return *this;
 	}
 
-	bool operator == (Tiempo t){
+	/*bool operator == (const Tiempo & t){
 		bool iguales = false;
 
 		if ((this->horas == t.horas) and (this->minutos == t.minutos) and (this->segundos == t.segundos))
 			iguales = true;
 
 		return iguales;
-	}
+	}*/
 
-	bool operator > (Tiempo t){
+	/*bool operator > (const Tiempo & t){
 		bool mayor = false;
 
 		if (this->horas > t.horas) mayor = true;
@@ -77,9 +77,9 @@ struct Tiempo{
 		if (*this == t) mayor = false;
 
 		return mayor;
-	}
+	}*/
 
-	void operator - (Tiempo &t){
+	/*void operator - (Tiempo &t){
 		if (t > *this){
 			int seg1 = ((this->horas * H_TO_S) + (this->minutos * LIM_MIN_SEG) + this->segundos);
 			int seg2 = ((t.horas * H_TO_S) + (t.minutos * LIM_MIN_SEG) + t.segundos);
@@ -89,15 +89,15 @@ struct Tiempo{
 			*this = {0};
 			*this += seg2;
 		}
-	}
+	}*/
 };
 
 /*****************************************************************************/
 // Cabeceras
 
 void corrigeValor(Tiempo & t);
-bool esPosterior (Tiempo & t1, Tiempo & t2);
-bool sonIguales (Tiempo & t1, Tiempo & t2);
+bool esPosterior (const Tiempo & t1, const Tiempo & t2);
+bool sonIguales (const Tiempo & t1, const Tiempo & t2);
 int tiempoEnSegundos (const Tiempo & t);
 Tiempo & segundosEnTiempo (const int s);
 void calcularNuevoTiempo (Tiempo & t, const int s);

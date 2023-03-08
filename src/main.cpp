@@ -9,9 +9,9 @@ using namespace std;
 
 int main(){
 	Tiempo t1;
-	t1.horas = 34; 
-	t1.minutos = 59;
-	t1.segundos = 26;
+	t1.horas = 14; 
+	t1.minutos = 58;
+	t1.segundos = 86;
 
 	cout << "Tiempo 1: " << toString(t1) << endl;
 
@@ -42,7 +42,7 @@ int main(){
 	int seg = tiempoEnSegundos(t1);
 	cout << "Último tiempo en segundos: " << seg << endl;
 
-	cout << "\n¿Iguales? ";
+	cout << "¿Iguales? ";
 	if(sonIguales(t1,t2)) cout << "Sí\n\n";
 	else cout << "No\n\n";
 
@@ -94,27 +94,30 @@ int main(){
 
 	///////////////////////////////////
 
-	cout << "Datos coche nº4: " << toString(r[7]) << endl
-		 << "Tiempo en tramo: " << tiempoEnTramo(r[7]) << " minutos" << endl;
+	cout << "Datos coche nº8: " << toString(r[7]) << endl
+		 << "Tiempo en tramo: " << tiempoEnTramo(r[7]) << " minuto/s" << endl
+		 << "Datos coche nº22: " << toString(r[21]) << endl
+		 << "Tiempo en tramo: " << tiempoEnTramo(r[21]) << " minuto/s" << endl;
 
 	///////////////////////////////////
 
-	int util_multa, util_no_multa;
-	Registro multa[util_multa];
-	Registro no_multa[util_no_multa];
+	ControlDiario multa;
+	ControlDiario no_multa;
 
 	///////////////////////////////////
 
-	extraeDatos(c, multa, no_multa, util_multa, util_no_multa);
+	extraeDatos(c, multa, no_multa);
 
-	for (int i = 0; i < util_multa; i++){
-		cout << "\nMultado: " << controlVehiculo(multa[i]) << endl;
+	cout << endl;
+
+	for (int i = 0; i < multa.util; i++){
+		cout << "multado: " << controlVehiculo(multa.conjunto[i]) << endl;
 	}
 
 	cout << endl;
 
-	for (int i = 0; i < util_no_multa; i++){
-		cout << "No multado: " << controlVehiculo(no_multa[i]) << endl;
+	for (int i = 0; i < no_multa.util; i++){
+		cout << "No multado: " << controlVehiculo(no_multa.conjunto[i]) << endl;
 	}
 
 	return 0;

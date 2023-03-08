@@ -30,15 +30,14 @@ struct ControlDiario{
 /*****************************************************************************/
 // Cabeceras
 
-float tiempoEnTramo (Registro r);
+float tiempoEnTramo (const Registro & r);
 float velocidadPromedio (const Registro & r);
 void corrigeRegistro (Registro & r);
 std::string controlVehiculo (const Registro & r);
-std::string toString (Registro r);
+std::string toString (const Registro & r);
 
 //////////
 
-void extraeDatos (const ControlDiario & c, Registro excedido[], Registro correcto[],
-				 int & util_excedido, int & util_correcto);
+void extraeDatos (const ControlDiario & datos, ControlDiario & multa, ControlDiario & no_multa);
 
 #endif

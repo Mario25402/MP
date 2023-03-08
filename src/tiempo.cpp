@@ -9,13 +9,13 @@ using namespace std;
 void corrigeValor (Tiempo & t){
 	if (t.horas >= 0 and t.minutos >= 0 and t.segundos >= 0){
 		if (t.segundos >= LIM_MIN_SEG){
+			t.minutos += (t.segundos / LIM_MIN_SEG);
 			t.segundos %= LIM_MIN_SEG;
-			t.minutos += t.minutos / LIM_MIN_SEG;
 		}
 
 		if (t.minutos >= LIM_MIN_SEG){
+			t.horas += (t.minutos / LIM_MIN_SEG);
 			t.minutos %= LIM_MIN_SEG;
-			t.horas += t.minutos / LIM_MIN_SEG;
 		}
 
 		if (t.horas >= LIM_HOR) t.horas %= LIM_HOR;
@@ -28,18 +28,31 @@ void corrigeValor (Tiempo & t){
 	}
 }
 
-bool esPosterior (Tiempo & t1, Tiempo & t2){
-	corrigeValor(t1);
-	corrigeValor(t2);
+bool esPosterior (const Tiempo & t1, const Tiempo & t2){
+		bool mayor = false;
 
-	return t1 > t2;
+		if (t1.horas > t2.horas) mayor = true;
+
+		else if (t1.horas == t2.horas){
+			if (t1.minutos > t2.minutos) mayor = true;
+
+			else if (t1.minutos == t2.minutos){
+				if (t1.segundos > t2.segundos) mayor = true;
+			}
+		}
+
+		//if (t1 == t2) mayor = false;
+
+		return mayor;
 }
 
-bool sonIguales (Tiempo & t1, Tiempo & t2){
-	corrigeValor(t1);
-	corrigeValor(t2);
+bool sonIguales (const Tiempo & t1, const Tiempo & t2){
+		bool iguales = false;
 
-	return t1 == t2;
+		if ((t1.horas == t2.horas) and (t1.minutos == t2.minutos) and (t1.segundos == t2.segundos))
+			iguales = true;
+
+		return iguales;
 }
 
 int tiempoEnSegundos (const Tiempo & t){
@@ -59,7 +72,6 @@ void calcularNuevoTiempo (Tiempo & t, const int s){
 string toString (Tiempo & t){
 	string salida;
 
-	corrigeValor(t);
 	salida = to_string(t.horas) + ':' + to_string(t.minutos)
    		   + ':' + to_string(t.segundos);
 
