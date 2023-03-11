@@ -9,9 +9,9 @@ using namespace std;
 
 int main(){
 	Tiempo t1;
-	t1.horas = 14; 
-	t1.minutos = 58;
-	t1.segundos = 86;
+	t1.horas = 10; 
+	t1.minutos = 59;
+	t1.segundos = 26;
 
 	cout << "Tiempo 1: " << toString(t1) << endl;
 
@@ -33,7 +33,7 @@ int main(){
 
 	///////////////////////////////////
 
-	cout << "\nSumando 7264 segundos: ";
+	cout << "\nSumando 7264 segundos al tiempo 1: ";
 	calcularNuevoTiempo(t1, 7264);
 	Tiempo suma = segundosEnTiempo(7264);
 	cout << toString(suma) << endl;
@@ -46,7 +46,7 @@ int main(){
 	if(sonIguales(t1,t2)) cout << "Sí\n\n";
 	else cout << "No\n\n";
 
-	cout << "Sumando 3663 segundos: ";
+	cout << "Sumando 3663 segundos al tiempo 1: ";
 	calcularNuevoTiempo(t1, 3663);
 	suma = segundosEnTiempo(3663);
 	cout << toString(suma) << endl;
@@ -95,9 +95,11 @@ int main(){
 	///////////////////////////////////
 
 	cout << "Datos coche nº8: " << toString(r[7]) << endl
-		 << "Tiempo en tramo: " << tiempoEnTramo(r[7]) << " minuto/s" << endl
+		 << "Tiempo en tramo: " << tiempoEnTramo(r[7]) << " minuto(s)"
+		 << " a " << velocidadPromedio(r[7]) << " km/h" << endl
 		 << "Datos coche nº22: " << toString(r[21]) << endl
-		 << "Tiempo en tramo: " << tiempoEnTramo(r[21]) << " minuto/s" << endl;
+		 << "Tiempo en tramo: " << tiempoEnTramo(r[21]) << " minuto(s)"
+		 << " a " << velocidadPromedio(r[21]) << " km/h" << endl;
 
 	///////////////////////////////////
 

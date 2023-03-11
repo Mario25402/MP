@@ -41,7 +41,8 @@ bool esPosterior (const Tiempo & t1, const Tiempo & t2){
 			}
 		}
 
-		//if (t1 == t2) mayor = false;
+		if (t1.horas == t2.horas and t1.minutos == t2.minutos
+			                  	 and t1.segundos == t1.segundos) mayor = false;
 
 		return mayor;
 }

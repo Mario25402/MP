@@ -7,32 +7,26 @@ using namespace std;
 // Funciones
 
 float tiempoEnTramo (const Registro & r){
-	if (r.salida.horas > r.entrada.horas and
-		r.salida.minutos > r.entrada.minutos and
-		r.salida.segundos > r.entrada.segundos){
+	float seg1 = tiempoEnSegundos(r.entrada);
+	float seg2 = tiempoEnSegundos(r.salida);
 
+	if (seg2 > seg1){
+		float resta = seg2 - seg1;
 
-		int seg1 = tiempoEnSegundos(r.entrada); //((r.entrada.horas * H_TO_S) + (r.entrada.minutos * LIM_MIN_SEG) + r.entrada.segundos);
-		int seg2 = tiempoEnSegundos(r.salida); //((t.horas * H_TO_S) + (t.minutos * LIM_MIN_SEG) + t.segundos);
-
-		seg2 -= seg1;
-
-		Tiempo aux = segundosEnTiempo(seg2);
-		return tiempoEnMinutos(aux);
+		return resta / LIM_MIN_SEG;
 	}
+	
+	return 0;
 }
 
 float velocidadPromedio (const Registro & r){
-	float tiempo_horas = (tiempoEnTramo(r) / LIM_HOR);
+	float tiempo_horas = (tiempoEnTramo(r) / LIM_MIN_SEG);
 
-	return (LONG_TRAMO / tiempo_horas);
+	return LONG_TRAMO / tiempo_horas;
 }
 
 void corrigeRegistro (Registro & r){
-	if (r.salida.horas > r.entrada.horas and
-	r.salida.minutos > r.entrada.minutos and
-	r.salida.segundos > r.entrada.segundos){
-
+	if (r.entrada.horas > r.salida.horas){
 		Tiempo aux = r.entrada;
 		r.entrada = r.salida;
 		r.salida = aux;
@@ -50,7 +44,7 @@ string controlVehiculo (const Registro & r){
 	return salida;
 }
 
-string toString (const Registro & r){
+string toString (Registro & r){
 	string salida = r.matricula + " entra: " + toString(r.entrada)
 				  + " sale: " + toString(r.salida);
 
@@ -60,6 +54,9 @@ string toString (const Registro & r){
 //////////
 
 void extraeDatos (const ControlDiario & datos, ControlDiario & multa, ControlDiario & no_multa){
+	multa.util = 0;
+	no_multa.util = 0;
+
 	for (int i = 0; i < datos.util; ++i){
 		int vel = velocidadPromedio(datos.conjunto[i]);
 
