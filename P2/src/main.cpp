@@ -19,22 +19,20 @@ void testBasico(const char frase[]) {
     int n = longitud(frase);
     int pals = cuentaPalabras(frase);
     cout << "Tiene " << n << " caracteres y " << pals << " palabras " << endl;
-
 }
 
 void testPalabras(const char frase[]) {
     char palabra[MAX_SIZE];
 
-    cout << "\nDESCOMPOSICION EN PALABRAS nro -> palabra (long.)" << endl;
+    cout << "\nDESCOMPOSICION EN PALABRAS nro -> palabra (long)." << endl;
     int nro = 1;
     extraePalabra(frase, nro, palabra);
+    //cout << nro << " -> " << palabra << " (" << longitud(palabra) << ")\n"; 
     while (longitud(palabra) > 0) {
         cout << nro << " -> " << palabra << " (" << longitud(palabra) << ")\n";
         nro++;
         extraePalabra(frase, nro, palabra);
     }
-
-
 }
 
 void testInvierte(const char frase[]) {

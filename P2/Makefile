@@ -10,21 +10,16 @@ INCLUDE = ./include
 ################################################################################
 # Ejecutable
 
-$(BIN)/tiempo : $(OBJ)/tiempo.o $(OBJ)/main.o $(OBJ)/registro.o \
-				$(LIB)/libtiempo.a  $(LIB)/libregistro.a
+$(BIN)/palabras : $(OBJ)/palabras.o $(OBJ)/main.o $(LIB)/libpalabras.a
 	@echo Creando ejecutable
-	g++ -o $(BIN)/tiempo $(OBJ)/tiempo.o  $(OBJ)/main.o \
-	    -L $(LIB) -ltiempo -lregistro
+	g++ -o $(BIN)/palabras $(OBJ)/palabras.o  $(OBJ)/main.o -L $(LIB) -lpalabras
+	@echo
 
 # Ficheros Objeto
 
-$(OBJ)/tiempo.o : $(SRC)/tiempo.cpp $(INCLUDE)/tiempo.h
+$(OBJ)/palabras.o : $(SRC)/palabras.cpp $(INCLUDE)/palabras.h
 	@echo Creando ficheros objeto
-	g++ -c $(SRC)/tiempo.cpp -o $(OBJ)/tiempo.o -I $(INCLUDE)
-	@echo
-
-$(OBJ)/registro.o : $(SRC)/registro.cpp $(INCLUDE)/tiempo.h $(INCLUDE)/registro.h
-	g++ -c $(SRC)/registro.cpp -o $(OBJ)/registro.o -I $(INCLUDE)
+	g++ -c $(SRC)/palabras.cpp -o $(OBJ)/palabras.o -I $(INCLUDE)
 	@echo	
 
 $(OBJ)/main.o : $(SRC)/main.cpp $(INCLUDE)
@@ -33,19 +28,15 @@ $(OBJ)/main.o : $(SRC)/main.cpp $(INCLUDE)
 
 # Librerias
 
-$(LIB)/libtiempo.a : $(OBJ)/tiempo.o
+$(LIB)/libpalabras.a : $(OBJ)/palabras.o
 	@echo Creando librerias
-	ar rvs $(LIB)/libtiempo.a $(OBJ)/tiempo.o
-	@echo
-
-$(LIB)/libregistro.a : $(OBJ)/registro.o
-	ar rvs $(LIB)/libregistro.a $(OBJ)/registro.o
+	ar rvs $(LIB)/libpalabras.a $(OBJ)/palabras.o
 	@echo
 
 ################################################################################
 # Targets
 
-all:  $(BIN)/tiempo
+all:  $(BIN)/palabras
 
 clean:
 	@echo Borrando ficheros objeto
