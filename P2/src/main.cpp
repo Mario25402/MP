@@ -38,6 +38,7 @@ void testPalabras(const char frase[]) {
 void testInvierte(const char frase[]) {
 
     char reves[MAX_SIZE];
+    reves[0] = TERMINADOR;
     cout << "\nFRASE INVERSA " << endl;
     delReves(frase, reves);
     cout << "Frase Original: " << frase;

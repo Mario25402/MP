@@ -107,6 +107,7 @@ int cuentaPalabras(const char msg[]) {
 
 void extraePalabra(const char msg[], int nroPal, char salida[]) {
     int ini = posPalabra(msg, nroPal);
+    //int longitud = longPalabra(msg, nroPal);
     int longitud = 0;
 
     int actual = ini;
@@ -115,22 +116,23 @@ void extraePalabra(const char msg[], int nroPal, char salida[]) {
         longitud++;
     }
 
-    int i = 0;
-    for (i; i <= longitud; i++) salida[i] = msg[ini+i];
+    for (int i = 0; i <= longitud; i++) salida[i] = msg[ini+i];
 
-    salida[i] = TERMINADOR;
+    salida[longitud+1] = TERMINADOR;
 }
 
 void delReves(const char msg[], char msg_reves[]) {
     int num_pal = cuentaPalabras(msg);
 
-    if (num_pal > 0){
+    if (num_pal != 0){
         int i = 0;
 
         while (i < num_pal){
             char palabra[MAX_SIZE];
+
             extraePalabra(msg, num_pal-i, palabra);
             agregaPalabra(msg_reves, palabra);
+
             i++;
         }
 
@@ -142,20 +144,21 @@ void delReves(const char msg[], char msg_reves[]) {
 }
 
 void agregaPalabra(char msg[], const char pal[]) {
-    int long_msg = longitud(msg);
-    int long_pal = longitud(pal);
+    int esc = longitud(msg);
     int palabras = cuentaPalabras(msg);
 
     if (palabras > 0){
-        msg[long_msg] = '-';
-        long_msg++;
-    }
-
-    int esc = 0;
-
-    while (esc <= long_pal){
-        msg[long_msg] = pal[esc];
-        long_msg++;
+        msg[esc] = '-';
         esc++;
     }
+
+    int lec = 0;
+
+    while (pal[lec] != TERMINADOR){
+        msg[esc] = pal[lec];
+        esc++;
+        lec++;
+    }
+
+    msg[esc] = TERMINADOR;
 }
