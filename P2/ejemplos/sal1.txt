@@ -1,0 +1,13 @@
+
+LA FRASE LEIDA ES:     Granada   club de  futbol  
+Tiene 31 caracteres y 4 palabras 
+
+DESCOMPOSICION EN PALABRAS nro -> palabra (long.)
+1 -> Granada (7)
+2 -> club (4)
+3 -> de (2)
+4 -> futbol (6)
+
+FRASE INVERSA 
+Frase Original:     Granada   club de  futbol  
+Frase al Reves: futbol-de-club-Granada

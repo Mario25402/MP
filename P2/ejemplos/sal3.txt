@@ -1,0 +1,14 @@
+
+LA FRASE LEIDA ES: A B C D E
+Tiene 9 caracteres y 5 palabras 
+
+DESCOMPOSICION EN PALABRAS nro -> palabra (long.)
+1 -> A (1)
+2 -> B (1)
+3 -> C (1)
+4 -> D (1)
+5 -> E (1)
+
+FRASE INVERSA 
+Frase Original: A B C D E
+Frase al Reves: E-D-C-B-A

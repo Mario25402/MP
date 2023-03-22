@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/mario/Escritorio/MP/P2/bin",
+            "binaryPath": "/home/mario/Escritorio/MP/P2/bin/palabras",
+            "binaryArgs": []
+        }
+    ]
+}

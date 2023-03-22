@@ -1,3 +1,9 @@
+/*
+Mi programa produce la salida esperada con todos los ejemplos
+NOMBRE Y APELLIDOS: MARIO PIÑA MUNERA
+DNI: 26536550R
+GRUPO DE PRÁCTICAS: MIÉRCOLES
+*/
 
 /* 
  * File:   palabras.cpp
@@ -107,7 +113,6 @@ int cuentaPalabras(const char msg[]) {
 
 void extraePalabra(const char msg[], int nroPal, char salida[]) {
     int ini = posPalabra(msg, nroPal);
-    //int longitud = longPalabra(msg, nroPal);
     int longitud = 0;
 
     int actual = ini;
@@ -126,6 +131,8 @@ void delReves(const char msg[], char msg_reves[]) {
 
     if (num_pal != 0){
         int i = 0;
+        
+        corrige(msg_reves);
 
         while (i < num_pal){
             char palabra[MAX_SIZE];
@@ -161,4 +168,12 @@ void agregaPalabra(char msg[], const char pal[]) {
     }
 
     msg[esc] = TERMINADOR;
+}
+
+void corrige(char msg[]){
+    if (!((msg[0] >= 'a' && msg[0] <= 'z') or
+        (msg[0] >= 'A' && msg[0] <= 'Z') or
+        msg[0] == SEP or msg[0] == TERMINADOR)){
+            msg[0] = TERMINADOR;
+        }
 }

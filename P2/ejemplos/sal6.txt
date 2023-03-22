@@ -1,0 +1,14 @@
+
+LA FRASE LEIDA ES:  .practicas. de MP se ,complican. 
+Tiene 34 caracteres y 5 palabras 
+
+DESCOMPOSICION EN PALABRAS nro -> palabra (long.)
+1 -> .practicas. (11)
+2 -> de (2)
+3 -> MP (2)
+4 -> se (2)
+5 -> ,complican. (11)
+
+FRASE INVERSA 
+Frase Original:  .practicas. de MP se ,complican. 
+Frase al Reves: ,complican.-se-MP-de-.practicas.

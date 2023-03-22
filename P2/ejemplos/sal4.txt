@@ -1,0 +1,14 @@
+
+LA FRASE LEIDA ES: #1# !22!  X333X   $4444$    (55555)
+Tiene 35 caracteres y 5 palabras 
+
+DESCOMPOSICION EN PALABRAS nro -> palabra (long.)
+1 -> #1# (3)
+2 -> !22! (4)
+3 -> X333X (5)
+4 -> $4444$ (6)
+5 -> (55555) (7)
+
+FRASE INVERSA 
+Frase Original: #1# !22!  X333X   $4444$    (55555)
+Frase al Reves: (55555)-$4444$-X333X-!22!-#1#

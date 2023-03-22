@@ -1,0 +1,10 @@
+
+LA FRASE LEIDA ES: inmediatamente
+Tiene 14 caracteres y 1 palabras 
+
+DESCOMPOSICION EN PALABRAS nro -> palabra (long.)
+1 -> inmediatamente (14)
+
+FRASE INVERSA 
+Frase Original: inmediatamente
+Frase al Reves: inmediatamente

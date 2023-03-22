@@ -1,8 +1,14 @@
+/*
+NOMBRE Y APELLIDOS: MARIO PIÑA MUNERA
+DNI: 26536550R
+GRUPO DE PRÁCTICAS: MIÉRCOLES
+*/
+
 /* 
- * File:   palabras.h
- * Author: David A. Pelta
- *
- * Created on 10 de marzo de 2023
+ * File:   palabras.cpp
+ * Author: David Pelta
+ * 
+ * Created on 10 de marzo de 2023,
  */
 
 #ifndef PALABRAS_H
@@ -68,6 +74,12 @@ void delReves(const char msg[], char msg_reves[]);
  * @param pal cstring con la palabra a agregar
  */
 void agregaPalabra(char msg[], const char pal[]);
+
+/**
+ * @brief Corrige una cadena inicializada con valores basura
+ * @param msg text de entrada (cstring)
+ */
+void corrige(char msg[]);
 
 
 #endif /* PALABRAS_H */

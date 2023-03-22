@@ -1,0 +1,13 @@
+
+LA FRASE LEIDA ES:    una, frase de prueba..
+Tiene 25 caracteres y 4 palabras 
+
+DESCOMPOSICION EN PALABRAS nro -> palabra (long.)
+1 -> una, (4)
+2 -> frase (5)
+3 -> de (2)
+4 -> prueba.. (8)
+
+FRASE INVERSA 
+Frase Original:    una, frase de prueba..
+Frase al Reves: prueba..-de-frase-una,
