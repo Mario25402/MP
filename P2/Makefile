@@ -10,9 +10,9 @@ INCLUDE = ./include
 ################################################################################
 # Ejecutable
 
-$(BIN)/palabras : $(OBJ)/palabras.o $(OBJ)/main.o $(LIB)/libpalabras.a
+$(BIN)/palabras : $(OBJ)/palabras.o $(OBJ)/justifica.o $(LIB)/libpalabras.a
 	@echo Creando ejecutable
-	g++ -o $(BIN)/palabras $(OBJ)/palabras.o  $(OBJ)/main.o -L $(LIB) -lpalabras
+	g++ -o $(BIN)/palabras $(OBJ)/palabras.o  $(OBJ)/justifica.o -L $(LIB) -lpalabras
 	@echo
 
 # Ficheros Objeto
@@ -22,8 +22,8 @@ $(OBJ)/palabras.o : $(SRC)/palabras.cpp $(INCLUDE)/palabras.h
 	g++ -c $(SRC)/palabras.cpp -o $(OBJ)/palabras.o -I $(INCLUDE)
 	@echo	
 
-$(OBJ)/main.o : $(SRC)/main.cpp $(INCLUDE)
-	g++ -c $(SRC)/main.cpp -o $(OBJ)/main.o -I $(INCLUDE)
+$(OBJ)/justifica.o : $(SRC)/justifica.cpp $(INCLUDE)
+	g++ -c $(SRC)/justifica.cpp -o $(OBJ)/justifica.o -I $(INCLUDE)
 	@echo
 
 # Librerias

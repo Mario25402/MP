@@ -13,6 +13,8 @@ GRUPO DE PRÁCTICAS: MIÉRCOLES
  */
 
 #include "palabras.h"
+#include <cstring>
+#include <cmath>
 
 int longitud(const char s[]) {
     int cont = 0;
@@ -52,6 +54,16 @@ bool terminaPalabra(const char s[], int j) {
     return (es_letra_actual && hay_sep_sig);
 }
 
+// funcion privada.
+// Si una cadena está inicializada con basura inserta en la
+// primera posición un terminador de cadena
+void corrige(char msg[]){
+    if (!((msg[0] >= 'a' && msg[0] <= 'z') or
+        (msg[0] >= 'A' && msg[0] <= 'Z') or
+        msg[0] == SEP or msg[0] == TERMINADOR)){
+            msg[0] = TERMINADOR;
+        }
+}
 
 int posPalabra(const char msg[], int nroPal) {
     int pos = -1;
@@ -170,10 +182,44 @@ void agregaPalabra(char msg[], const char pal[]) {
     msg[esc] = TERMINADOR;
 }
 
-void corrige(char msg[]){
-    if (!((msg[0] >= 'a' && msg[0] <= 'z') or
-        (msg[0] >= 'A' && msg[0] <= 'Z') or
-        msg[0] == SEP or msg[0] == TERMINADOR)){
-            msg[0] = TERMINADOR;
+void expande(char msg[], const int tam){
+    int palabras = cuentaPalabras(msg);
+    int espacios = palabras-1;
+
+    if (espacios > 0){
+        corrige(msg);
+        int long_msg = longitud(msg);
+
+        if (msg[0] == SEP) espacios++;
+        if (msg[long_msg] == SEP) espacios++;
+        
+        if (msg[0] != TERMINADOR){
+            char aux[MAX_SIZE];
+            int aniadir = floor(tam/espacios);
+            int long_aux = long_msg + tam;
+            int lec = 0, esc = 0;
+
+            while (esc < long_aux){
+                if (empiezaPalabra(msg, lec)){
+                    while (!terminaPalabra(msg, lec)){
+                        aux[esc] = msg[lec];
+                        esc++;
+                        lec++;
+                    }
+
+                    aux[esc] = msg[lec];
+                    esc++;
+                }
+
+                else{
+                    for (int i = 0; i < aniadir; i++, esc++) aux[esc] = ' ';
+                }
+
+                lec++;
+            }
+
+            aux[esc] = TERMINADOR;
+            strcpy (msg, aux);
         }
+    }
 }

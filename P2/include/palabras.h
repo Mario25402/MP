@@ -75,11 +75,13 @@ void delReves(const char msg[], char msg_reves[]);
  */
 void agregaPalabra(char msg[], const char pal[]);
 
+
 /**
- * @brief Corrige una cadena inicializada con valores basura
- * @param msg text de entrada (cstring)
+ * @brief Ingresa más espacios entre las palabras separadas por estos
+ * @param msg text de entrada (cstring) a expandir
+ * @param tam numero de espacios a repartir
  */
-void corrige(char msg[]);
+void expande(char msg[], const int tam);
 
 
 #endif /* PALABRAS_H */
