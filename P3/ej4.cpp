@@ -4,19 +4,19 @@ using namespace std;
 
 void ordena (int *v, int longitud){
     int *ini = v;
-    int *fin = v;
+    int *fin = v+longitud-1;
 
     int i = 0;
-    int j = longitud;
+    int j = 0;
 
-    while ((i < longitud) and (j > 0) and (ini < fin)){
-        while(*(ini+i) <= v[0]) i++;
-        while (*(fin+j) >= v[0]) j++;
+    while ((i < longitud) and (j < longitud) and (ini+i <= fin-j)){
+        while (*(ini+i) <= v[0] and i < longitud) i++;
+        while (*(fin-j) >= v[0] and j < longitud) j++;
 
-        if (ini < fin){
+        if (ini+i <= fin-j){
             int aux = *(ini+i);
-            *(ini+i) = *(fin+j);
-            *(fin+j) = aux;
+            *(ini+i) = *(fin-j);
+            *(fin-j) = aux;
         }
     }
 }
