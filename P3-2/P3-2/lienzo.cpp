@@ -87,6 +87,28 @@ void flipH(Lienzo & img){
 void pintaBarras(Lienzo & img, int *barras, int n, char c){
     if (img.M != 0) liberaMemoria(img);
     
-    img.nf = n*4;
-    img.nc = n+1;
+    img.nc = n*4;
+    img.nf = 0;
+
+    for (int i = 0; i < n; ++i)
+        if (barras[i] > img.nf) img.nf = barras[i];
+
+    img.nf += 1;
+
+    reservaMemoria(img);
+    rellenar(img, '.');
+
+    for (int i = 0, j = 0; i < img.nc, j < n; i+=4, ++j)
+            dibujaRectangulo(img, 0, i+1, 2, barras[j], c);
+
+    flipV(img);
 }
+
+/*
+
+El código para analizar o la función de prueba 6, dara error de ejecución
+al intentar imprimir la matriz de img2, por que cuando hicimos img2 = img1, 
+lo que realmente paso es que el objeto img2 pasó a apuntar al objeto img1,
+y por tanto, al liberar la memoria de img1 no podremos acceder mediante img2.
+
+*/
