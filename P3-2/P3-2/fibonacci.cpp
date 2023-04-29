@@ -4,7 +4,7 @@ using namespace std;
 const int EXTRA = 3;
 const int N = 100;
 
-void compruebaMemoria(int* &vec, const int actual, int &tam) {
+void compruebaMemoria(unsigned long long* &vec, const int actual, int &tam) {
     if (actual == tam) {
 
         if (tam + actual > EXTRA) {
@@ -14,7 +14,7 @@ void compruebaMemoria(int* &vec, const int actual, int &tam) {
             tam = actual + EXTRA;
         }
 
-        int *vec_ampliado = new int[tam];
+        unsigned long long *vec_ampliado = new unsigned long long[tam];
 
         for (int i = 0; i < actual; ++i) vec_ampliado[i] = vec[i];
         delete[]vec;
@@ -23,13 +23,13 @@ void compruebaMemoria(int* &vec, const int actual, int &tam) {
     }
 }
 
-void rellenaSucesion(int* &vec, int &actual, int &tam) {
+void rellenaSucesion(unsigned long long* &vec, int &actual, int &tam) {
     compruebaMemoria(vec, actual, tam);
     *(vec + actual) = *(vec + actual - 1) + *(vec + actual - 2);
     actual++;
 }
 
-void salida(int *vec, int tam) {
+void salida(unsigned long long *vec, int tam) {
     cout << "Sucesión: ";
 
     int i = 0;
@@ -40,14 +40,14 @@ void salida(int *vec, int tam) {
     cout << "\nRecuento: " << i << endl;
 }
 
-void liberaMemoria (int* &vec){
+void liberaMemoria (unsigned long long* &vec){
     delete []vec;
 }
 
 int main() {
     int n = 2;
     int total = n;
-    int *v = new int[2];
+    unsigned long long *v = new unsigned long long[2];
 
     v[0] = 0;
     v[1] = 1;

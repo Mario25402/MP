@@ -1,11 +1,3 @@
-#ifndef LIENZO_H
-#define LIENZO_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-    
 /*
  
  * FICHERO: lienzo.h
@@ -14,6 +6,9 @@ extern "C" {
  * Curso: 2022 - 2023
  
  */
+
+#ifndef LIENZO_H
+#define LIENZO_H
 
 struct Lienzo{
     char **M = 0;
@@ -97,30 +92,48 @@ void flipH(Lienzo & img);
  * @param n el tamaño del array
  * @param c el simbolo para "pintar" las barras
   */
+
 void pintaBarras(Lienzo & img, int *barras, int n, char c);
 
+/**
+ * @brief rota el lienzo 90º en sentido horario
+ *        cuidado si el lienzo no es cuadrado!!
+ * @param img es el lienzo a rotar
+ */
 
-#ifdef __cplusplus
-}
+void rotar(Lienzo & img);
+
+/**
+ * @brief comprueba si dos lienzos son iguales
+ * devuelve true si tienen las mismas dimensiones
+ * y coinciden todos los elementos. 
+ * @param L1, L2 son los datos de tipo Lienzo a comparar
+ */
+bool sonIguales(const Lienzo & L1, const Lienzo & L2);
+
 #endif
-
-#endif /* LIENZO_H */
 
 /*****************************************************************************/
 
+/*
+ 
+ * FICHERO: main.cpp
+ * Autor: David A. Pelta
+ * para guión de prácticas de Metodología de la Programación
+ * Curso: 2022 - 2023
+ 
+ */
+
 #include <iostream>
-//#include <string>
 #include "lienzo.h"
+#include <cassert>
 
 using namespace std;
 
-void test1(); // reserva-libera
-void test2(); // dibuja rectangulos
-void test3(); // redimensiona
-void test4(); // flipV - flipH
-void test5(); // pinta barras
-void test6(); // misterio
-void test7(); // prueba personalizada
+void test1(); // pintaBarras
+void test2(bool print); // flips
+void test3(bool print); // rotar
+
 
 // funcion auxiliar solo para main
 
@@ -128,15 +141,24 @@ void crearMatriz(Lienzo & img, char c);
 
 int main(int argc, char* argv[]) {
 
-    int opcion = 6;
+    if (argc < 2){
+        cout << "Uso: prueba <nro test> <print> " << endl;
+        cout << "nro test: {1,2,3}" << endl;
+        cout << "print: {0,1} solo se tiene en cuenta si nro test > 1" << endl;
+        exit(-1);
+    }
+    
+    int print = 0;
+    int opcion = 3;//atoi(argv[1]);
+    /*if ((opcion > 1)&& (argc > 2))
+        print = atoi(argv[2]);*/
+    
+    print = 0;
+
     switch (opcion){
         case 1: {test1(); break;}
-        case 2: {test2(); break;}
-        case 3: {test3(); break;}
-        case 4: {test4(); break;}
-        case 5: {test5(); break;}
-        case 6: {test6(); break;}
-        case 7: {test7(); break;}
+        case 2: {test2(print); break;}
+        case 3: {test3(print); break;}
     }
     
     return 0;
@@ -148,129 +170,128 @@ void crearMatriz(Lienzo & img, char c){
  rellenar(img, '.');
 }
 
+
 void test1(){
-    cout << "Reserva-Libera" << endl;
-    Lienzo img;
-    
-    for(int i = 0; i < 10; i++){
-        int n = random()%1000 + 10;
-        img.nf = n;
-        img.nc = n;
-        reservaMemoria(img);
-        liberaMemoria(img);
-    }
-}
-
-
-void test2(){
- cout << "Prueba dibujar Rectangulos " << endl;
- Lienzo img;
- img.nf = img.nc = 5;
- 
- crearMatriz(img,'.'); 
- dibujaRectangulo(img, 1,1,3,3,'X');
- imprimir(img);
- 
- rellenar(img, '.');
- dibujaRectangulo(img, 3,3,3,3,'X');
- imprimir(img);
- 
- rellenar(img, '.');
- dibujaRectangulo(img, -1,-1,3,3,'X');
- imprimir(img);
- cout << endl;
- 
- liberaMemoria(img);
-
- cout << "\nBien" << endl;
-}
-
-
-void test3(){
-    cout << "\n\nRedimensiona " << endl;
-    Lienzo img;
-    img.nf = img.nc = 2;
-    reservaMemoria(img);
-    rellenar(img, '*');
-    
-        
-    for(int i = 0; i < 5; i++){
-        imprimir(img);
-        redimensiona(img, img.nf + 1, img.nc+1,'.');
-    }
-    
-    liberaMemoria(img);
-}
-
-void test4(){
- cout << "flip v" << endl;
- Lienzo img;
- img.nf = 5;
- img.nc = 8;
- 
- crearMatriz(img, '.'); 
- dibujaRectangulo(img, 0,0,3,3, 'A');
- dibujaRectangulo(img, 3,5,1,3, 'B');
- imprimir(img);
-  
- flipV(img);
- imprimir(img);
-
- flipH(img);
- imprimir(img);
-
- flipV(img);
- imprimir(img);
-
- cout << endl;
-
- liberaMemoria(img);
-
-}
-  
-void test5(){
     cout << "Grafico de Barras " << endl;
-    int MAX = 6;
-    int v[MAX] = {1,2,3,4,5,6};
+    int MAX = 7;
+    int v[MAX] = {1,2,3,4,3,2,1};
     Lienzo G;
-    for(int i = 0; i <= MAX; i++){
+    for(int i = 1; i <= MAX; i++){
         pintaBarras(G, v, i, 'x');
         imprimir(G);
     }
-
     liberaMemoria(G);   
 }
 
-void test6(){
- cout << "Misterio" << endl;
- Lienzo img1, img2;
- img1.nf = 3;
- img1.nc = 3;
- 
- reservaMemoria(img1);
- rellenar(img1, '.');
 
- dibujaRectangulo(img1, 1,1,1,1, 'A');
- imprimir(img1);
- img2 = img1;
- imprimir(img2);
+void test3(bool print){
+    cout << " ROTACION " << endl;
+    Lienzo imgBase, img;
+    imgBase.nc = 6;
+    imgBase.nf = 5;
+    
+    img.nc = 6;
+    img.nf = 5;
+    
+    crearMatriz(imgBase, '.');
+    dibujaRectangulo(imgBase, 2,0, 6, 1, ')');
+    dibujaRectangulo(imgBase, 1,5,1,3, ')');
 
- 
- liberaMemoria(img1);
- imprimir(img2);
+    crearMatriz(img, '.');
+    dibujaRectangulo(img, 2,0, 6, 1, ')');
+    dibujaRectangulo(img, 1,5,1,3, ')');
+    
+    if (print){
+        imprimir(imgBase);
+        imprimir(img);
+    }
+    
+    assert(sonIguales(imgBase, img) && " fallo 1");
+    
+    rotar(img);
+    if (print)
+         imprimir(img);
+    
+    assert(!sonIguales(imgBase, img) && " fallo 2");
+    
+    rotar(img);
+    if (print)
+       imprimir(img);
+
+    assert(!sonIguales(imgBase, img)  && " fallo 3");
+    
+    rotar(img);
+    if (print)
+         imprimir(img);
+    rotar(img);
+    if (print)
+         imprimir(img);
+
+    assert(sonIguales(imgBase, img)  && " fallo 4");
+    
+    
+    liberaMemoria(imgBase);
+    liberaMemoria(img);
+            
 }
 
-void test7(){
-    cout << "Prueba" << endl;
-    Lienzo img;
+
+void test2(bool print){
+    cout << "  Test FLIPs " << endl;
+    Lienzo imgBase, img;
+    imgBase.nc = 6;
+    imgBase.nf = 5;
     
-    for(int i = 0; i < 10; i++){
-        int n = random()%1000 + 10;
-        img.nf = n;
-        img.nc = n;
-        reservaMemoria(img);
-        liberaMemoria(img);
-    }
+    img.nc = 6;
+    img.nf = 5;
+    
+    crearMatriz(imgBase, '.');
+    dibujaRectangulo(imgBase, 2,0, 4, 4, ')');
+
+    crearMatriz(img, '.');
+    dibujaRectangulo(img, 2,0, 4, 4, ')');
+    
+    if (print)
+         imprimir(img);
+
+    assert(sonIguales(imgBase, img)&& " fallo 1");
+    
+    flipV(img);
+    if (print)
+         imprimir(img);
+    
+    assert(!sonIguales(imgBase, img) && " fallo 2");
+    
+    flipV(img);
+    if (print)
+         imprimir(img);
+
+    assert(sonIguales(imgBase, img) && " fallo 3");
+    
+    flipH(img);
+    if (print)
+         imprimir(img);
+    
+    assert(!sonIguales(imgBase, img)&& " fallo 4 ");
+    
+    flipH(img);
+    if (print)
+         imprimir(img);
+
+    assert(sonIguales(imgBase, img) && " fallo 5");  
+    
+    flipV(img);
+    flipH(img);
+    flipH(img);
+    flipV(img);
+    if (print)
+         imprimir(img);
+
+    assert(sonIguales(imgBase, img) && " fallo 6 ");
+    
+    liberaMemoria(imgBase);
+    liberaMemoria(img);
+            
 }
 
 /*****************************************************************************/
@@ -304,11 +325,9 @@ void imprimir(const Lienzo & img){
 }
 
 void rellenar(Lienzo & img, char simbolo){
-    if (img.M != 0 and img.nf > 0){
-        for (int i = 0; i < img.nf; ++i){
-            for (int j = 0; j < img.nc; ++j){
-                img.M[i][j] = simbolo;
-            }
+    for (int i = 0; i < img.nf; ++i){
+        for (int j = 0; j < img.nc; ++j){
+            img.M[i][j] = simbolo;
         }
     }
 }
@@ -336,7 +355,7 @@ void dibujaRectangulo(Lienzo & img, int x, int y, int ancho, int alto, char c){
         }
     }
 }
-    
+	
 void flipV(Lienzo & img){
     for (int i = 0; i < img.nf/2 ; ++i){
         char *ini = *((img.M) + i);
@@ -351,7 +370,7 @@ void flipH(Lienzo & img){
     for (int i = 0; i < img.nf; ++i){
         for (int j = 0; j < img.nc/2; ++j){
             char ini = *(img.M[i] + j);
-            char fin = *(img.M[i] +(img.nc-j-1));
+            char fin = *(img.M[i] + (img.nc-j-1));
 
             *(img.M[i] + (img.nc-j-1)) = ini;
             *(img.M[i] + j) = fin;
@@ -377,4 +396,125 @@ void pintaBarras(Lienzo & img, int *barras, int n, char c){
             dibujaRectangulo(img, 0, i+1, 2, barras[j], c);
 
     flipV(img);
+}
+
+/*
+
+El código para analizar o la función de prueba 6, dara error de ejecución
+al intentar imprimir la matriz de img2, por que cuando hicimos img2 = img1, 
+lo que realmente paso es que el objeto img2 pasó a apuntar al objeto img1,
+y por tanto, al liberar la memoria de img1 no podremos acceder mediante img2.
+
+*/
+
+void rotar(Lienzo & img){
+    Lienzo tmp;
+    tmp.nf = img.nc;
+    tmp.nc = img.nf;
+
+    reservaMemoria(tmp);
+
+    for (int i = 0; i < img.nf; i++) {
+        for (int j = 0; j < img.nc; j++) {
+            tmp.M[j][tmp.nc - i - 1] = img.M[i][j];
+        }
+    }
+
+    liberaMemoria(img);
+    img = tmp;
+}
+
+bool sonIguales(const Lienzo & L1, const Lienzo & L2){
+    bool iguales = false;
+
+    if (L1.nf == L2.nf and L1.nc == L2.nc){
+        iguales = true;
+
+        for (int i = 0; i < L1.nf; ++i){
+            for (int j = 0; j < L1.nc and iguales; ++j){
+                if (L1.M[i][j] != L2.M[i][j]) iguales = false;
+            }
+        }
+    }
+
+    return iguales;
+}
+
+/*********** YO PRUEBAS ********************/
+
+void reservaMemoria(Lienzo & img){
+    img.M = new char* [img.nf];
+
+    for (int i = 0; i < img.nf; ++i){
+        img.M[i] = new char[img.nc];
+    }
+}
+
+void liberaMemoria(Lienzo & img){
+    for (int i = 0; i < img.nf; ++i){
+        delete [] img.M[i];
+    }
+
+    delete [] img.M;
+}
+
+void imprimir(const Lienzo & img){
+    for (int i = 0; i < img.nf; ++i){
+        for (int j = 0; j < img.nc; ++j){
+            cout << " " << img.M[i][j];
+        }
+
+        cout << endl;
+    }
+
+    cout << endl;
+}
+
+void redimensiona(Lienzo & img, int nuevaF, int nuevaC, char c){
+    Lienzo tmp;
+    tmp.nf = nuevaF;
+    tmp.nc = nuevaC;
+
+    reservaMemoria(tmp);
+    liberaMemoria(img);
+    rellenar(tmp, c);
+    img = tmp;
+}
+
+void dibujaRectangulo(Lienzo & img, int x, int y, int ancho, int alto, char c){
+    
+}
+	
+void flipV(Lienzo & img){
+    for (int i = 0; i < img.nf/2; ++i){
+        char *ini =  *(img.M + i);
+        char *fin = *(img.M + img.nf - i - 1);
+
+        *(img.M + i) = fin;
+        *(img.M + i - 1 + img.nf) = ini;
+    }
+}
+
+void flipH(Lienzo & img){
+    for (int i = 0; i < img.nf; ++i){
+        for (int j = 0; j < img.nc/2; ++j){
+            char ini = *(img.M[i] + j);
+            char fin = *(img.M[i] + j + img.nc - 1);
+
+            *(img.M[i] + j) = fin;
+            *(img.M[i] + j + img.nc -1) = ini;
+        }
+    }
+}
+
+void pintaBarras(Lienzo & img, int *barras, int n, char c){
+   
+}
+
+void rotar(Lienzo & img){
+
+}
+
+bool sonIguales(const Lienzo & L1, const Lienzo & L2){
+   
 }

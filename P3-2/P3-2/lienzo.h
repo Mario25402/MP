@@ -1,24 +1,4 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cFiles/file.h to edit this template
- */
-
-/* 
- * File:   lienzo.h
- * Author: mario
- *
- * Created on 12 de abril de 2023, 12:14
- */
-
-#ifndef LIENZO_H
-#define LIENZO_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-    
-/*
  
  * FICHERO: lienzo.h
  * Autor: David A. Pelta
@@ -26,6 +6,9 @@ extern "C" {
  * Curso: 2022 - 2023
  
  */
+
+#ifndef LIENZO_H
+#define LIENZO_H
 
 struct Lienzo{
     char **M = 0;
@@ -85,7 +68,7 @@ void redimensiona(Lienzo & img, int nuevaF, int nuevaC, char c);
  * @param simbolo es el carácter de relleno
   */
 void dibujaRectangulo(Lienzo & img, int x, int y, int ancho, int alto, char c);
-	
+    
 
 /**
  * @brief voltea la imagen en el eje arriba/abajo. El resultado se almacena en la misma variable
@@ -109,12 +92,25 @@ void flipH(Lienzo & img);
  * @param n el tamaño del array
  * @param c el simbolo para "pintar" las barras
   */
+
 void pintaBarras(Lienzo & img, int *barras, int n, char c);
 
+/**
+ * @brief rota el lienzo 90º en sentido horario
+ *        cuidado si el lienzo no es cuadrado!!
+ * @param img es el lienzo a rotar
+ */
 
-#ifdef __cplusplus
-}
+void rotar(Lienzo & img);
+
+/**
+ * @brief comprueba si dos lienzos son iguales
+ * devuelve true si tienen las mismas dimensiones
+ * y coinciden todos los elementos. 
+ * @param L1, L2 son los datos de tipo Lienzo a comparar
+ */
+bool sonIguales(const Lienzo & L1, const Lienzo & L2);
+
 #endif
 
-#endif /* LIENZO_H */
 

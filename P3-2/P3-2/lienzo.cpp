@@ -104,6 +104,39 @@ void pintaBarras(Lienzo & img, int *barras, int n, char c){
     flipV(img);
 }
 
+void rotar(Lienzo & img){
+    Lienzo tmp;
+    tmp.nf = img.nc;
+    tmp.nc = img.nf;
+
+    reservaMemoria(tmp);
+
+    for (int i = 0; i < img.nf; i++) {
+        for (int j = 0; j < img.nc; j++) {
+            tmp.M[j][tmp.nc - i - 1] = img.M[i][j];
+        }
+    }
+
+    liberaMemoria(img);
+    img = tmp;
+}
+
+bool sonIguales(const Lienzo & L1, const Lienzo & L2){
+    bool iguales = false;
+
+    if (L1.nf == L2.nf and L1.nc == L2.nc){
+        iguales = true;
+
+        for (int i = 0; i < L1.nf; ++i){
+            for (int j = 0; j < L1.nc and iguales; ++j){
+                if (L1.M[i][j] != L2.M[i][j]) iguales = false;
+            }
+        }
+    }
+
+    return iguales;
+}
+
 /*
 
 El código para analizar o la función de prueba 6, dara error de ejecución

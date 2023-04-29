@@ -3,7 +3,7 @@
 using namespace std;
 
 void reservaMemoria(Lienzo & img){
-    *img.M = new char [img.nf];
+    img.M = new char *[img.nf];
     
     for (int i = 0; i < img.nf; ++i){
         img.M[i] = new char [img.nc];
@@ -23,6 +23,8 @@ void imprimir(const Lienzo & img){
         for (int j = 0; j < img.nc; ++j){
             cout << " " << img.M[i][j];
         }
+
+        cout << endl;
     }
     
     cout << endl;
@@ -42,17 +44,18 @@ void redimensiona(Lienzo & img, int nuevaF, int nuevaC, char c){
     nuevo.nc = nuevaC;
     
     reservaMemoria(nuevo);
+    rellenar (nuevo, c);
     liberaMemoria(img);
     img = nuevo;
 }
 
 void dibujaRectangulo(Lienzo & img, int x, int y, int ancho, int alto, char c){
-    if (img.nf > 0 or img.M != 0){
+    if (img.nf > 0 and img.M != 0){
         if (x < 0) x = 0;
         if (y < 0) y = 0;
 
-        for (int i = x; i < ancho or i < img.nf; ++i){
-            for (int j = y; j < alto or i < img.nc; ++j){
+        for (int i = x; i < img.nf and i < x+alto; ++i){
+            for (int j = y; j < img.nc and j < y+ancho; ++j){
                 img.M[i][j] = c;
             }
         }
@@ -60,19 +63,23 @@ void dibujaRectangulo(Lienzo & img, int x, int y, int ancho, int alto, char c){
 }
 	
 void flipV(Lienzo & img){
-    for (int i = 0; i < img.nf/2; ++i){
-        char *aux = *(img.M+i);
-        *(img.M + i) = *(img.M + (img.nf-i));
-        *(img.M + (img.nf-i)) = aux;
+    for (int i = 0; i < img.nf/2 ; ++i){
+        char *ini = *((img.M) + i);
+        char *fin = *(img.M + (img.nf-i-1));
+        
+        *(img.M + (img.nf-i-1)) = ini;
+        *(img.M + i) = fin;
     }
 }
 
 void flipH(Lienzo & img){
-    for (int i = 0; i < img.nf/2; ++i){
-        for (int j = 0; j < img.nc; ++j){
-            char aux = *(img.M[i] + j);
-            *(img.M[i] + j) = *(img.M[i] + (img.nc-j));
-            *(img.M[i] + (img.nc-j)) = aux;
+    for (int i = 0; i < img.nf; ++i){
+        for (int j = 0; j < img.nc/2; ++j){
+            char ini = *(img.M[i] + j);
+            char fin = *(img.M[i] +(img.nc-j-1));
+
+            *(img.M[i] + (img.nc-j-1)) = ini;
+            *(img.M[i] + j) = fin;
         }
     }
 }
@@ -80,6 +87,28 @@ void flipH(Lienzo & img){
 void pintaBarras(Lienzo & img, int *barras, int n, char c){
     if (img.M != 0) liberaMemoria(img);
     
-    img.nf = n*4;
-    img.nc = n+1;
+    img.nc = n*4;
+    img.nf = 0;
+
+    for (int i = 0; i < n; ++i)
+        if (barras[i] > img.nf) img.nf = barras[i];
+
+    img.nf += 1;
+
+    reservaMemoria(img);
+    rellenar(img, '.');
+
+    for (int i = 0, j = 0; i < img.nc, j < n; i+=4, ++j)
+            dibujaRectangulo(img, 0, i+1, 2, barras[j], c);
+
+    flipV(img);
 }
+
+/*
+
+El código para analizar o la función de prueba 6, dara error de ejecución
+al intentar imprimir la matriz de img2, por que cuando hicimos img2 = img1, 
+lo que realmente paso es que el objeto img2 pasó a apuntar al objeto img1,
+y por tanto, al liberar la memoria de img1 no podremos acceder mediante img2.
+
+*/
