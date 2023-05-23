@@ -2,8 +2,6 @@
 #define _PUNTO2D_
 
 #include <iostream>
-using namespace std;
-
 //const int MAX_VEL = 6;
 const int MIN_DIM = 500;
 const float UMBRAL = 0.1;
@@ -47,9 +45,6 @@ public:
     std::string toString() const;
 
     void moverHacia(const Punto2D & destino, float speed);
-
-    friend ostream & operator << (ostream & flujo, const Punto2D & p);
-    friend istream & operator >> (istream & flujo, const Punto2D & p);
 };
 
 #endif

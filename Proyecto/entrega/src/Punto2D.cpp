@@ -79,18 +79,3 @@ dy=-dy/modulo;
 x += speed*dx;
 y += speed*dy;
 }
-
-ostream & operator << (ostream & flujo, const Punto2D & p){
-    flujo << p.getX() << " " << p.getY();
-
-    return flujo;
-}
-
-istream & operator >> (istream & flujo, const Punto2D & p){
-    int posX, posY;
-    
-    flujo >> posX >> posY;
-    Punto2D nuevo(posX, posY);
-
-    return flujo;
-}

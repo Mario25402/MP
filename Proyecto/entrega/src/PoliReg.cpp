@@ -1,7 +1,5 @@
 #include "PoliReg.h"
 #include <cmath>
-#include <iostream>
-using namespace std;
 
 const float PoliReg::MAX_RADIO = 200.0;
 const float PoliReg::MIN_RADIO = 15.0;
@@ -53,8 +51,10 @@ PoliReg & PoliReg::operator = (const PoliReg & rhs){
 
 bool PoliReg::operator == (const PoliReg & rhs) const{
     bool iguales = false;
-
-    if (this->getLados() == rhs.getLados()){
+    
+    if (this->centro.getX() == rhs.centro.getX() and
+        this->centro.getY() == rhs.centro.getY() and
+        this->N == rhs.N and this->radio == rhs.radio){
         iguales = true;
         
         for (int i = 0; i < N and !iguales; ++i){
@@ -65,52 +65,10 @@ bool PoliReg::operator == (const PoliReg & rhs) const{
     }
     
     return iguales;
-
-    /*if (this->centro.getX() == rhs.centro.getX() and
-        this->centro.getY() == rhs.centro.getY() and
-        this->N == rhs.N and this->radio == rhs.radio){*/
 }
 
 bool PoliReg::operator != (const PoliReg & rhs) const{
     return !(*this == rhs);
-}
-
-bool PoliReg::operator < (const PoliReg & rhs){
-    if (this->perimetro() < rhs.perimetro())
-        return true;
-    else
-        return false;
-}
-
-ostream & operator << (ostream & flujo, const PoliReg & p){
-    flujo << "@centro " << p.getCentro() << endl;
-    flujo << "@radio " << p.getRadio() << endl;
-    flujo << "@Puntos " << p.getLados() << endl;
-
-    for (int i = 0; i < p.getLados(); ++i)
-        flujo << p.getVertice(i) << endl;
-
-    return flujo;
-}
-
-istream & operator >> (istream & flujo, const PoliReg & p){
-    Punto2D centro, punto;
-    int radio, puntos;
-    string dato;
-
-    flujo >> dato >> centro;
-    flujo >> dato >> radio;
-    flujo >> dato >> puntos;
-
-    PoliReg nuevo(puntos, centro, radio);
-    nuevo.vertices = new Punto2D[puntos];
-
-    for (int i = 0; i < puntos; ++i){
-        flujo >> punto;
-        nuevo.vertices[i] = punto;
-    }
-
-    return flujo;
 }
 
 /**************/
@@ -120,10 +78,6 @@ PoliReg::PoliReg(){
     radio = MIN_RADIO;
     centro = Punto2D (0,0);
     reservaMemoria(N);
-}
-
-PoliReg::PoliReg(const PoliReg & otro){
-    *this = otro;
 }
 
 PoliReg::PoliReg(int nroVert, const Punto2D & centro, float r){
@@ -169,7 +123,7 @@ void PoliReg::eliminaVertice(){
     }
 }
 
-void PoliReg::expande(int delta){
+void PoliReg::expande(const int & delta){
     if (delta > 0){
         if (radio + delta <= MAX_RADIO){
             radio += delta;
@@ -178,7 +132,7 @@ void PoliReg::expande(int delta){
     }
 }
 
-void PoliReg::contrae(int delta){
+void PoliReg::contrae(const int & delta){
     if (delta > 0){
         if (radio - delta >= MIN_RADIO){
             radio -= delta;
@@ -194,7 +148,7 @@ float PoliReg::perimetro() const{
     return N * lado;
 }
 
-void PoliReg::rotar(float rads){
+void PoliReg::rotar(const float & rads){
     for (int i = 0; i < N; ++i)
         vertices[i].rotar(centro, rads);
 }
@@ -212,7 +166,7 @@ bool PoliReg::colision(const PoliReg & otro) const{
     return chocan;
 }
 
-void PoliReg::mover(float dx, float dy){
+void PoliReg::mover(const float & dx, const float & dy){
     for (int i = 0; i < N; ++i)
         vertices[i].mover(dx, dy);
 }
@@ -227,8 +181,4 @@ int PoliReg::getLados() const{
 
 Punto2D PoliReg::getVertice(const int & pos) const{
     return vertices[pos];
-}
-
-Punto2D PoliReg::getCentro() const{
-    return centro;
 }

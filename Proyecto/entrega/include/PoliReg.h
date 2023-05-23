@@ -1,6 +1,4 @@
 #include "Punto2D.h"
-#include <iostream>
-using namespace std;
 
 class PoliReg{
 private:
@@ -21,30 +19,23 @@ private:
     
     bool operator == (const PoliReg & rhs) const;
     bool operator != (const PoliReg & rhs) const;
-
+    
 public:
     PoliReg();
-    PoliReg(const PoliReg & otro);
     PoliReg(int nroVert, const Punto2D & centro, float r);
     ~PoliReg();
-
-    PoliReg & operator = (const PoliReg & rhs);
-    bool operator < (const PoliReg & rhs);
-
-    friend std::ostream & operator << (ostream & flujo, const PoliReg & p);
-    friend std::istream & operator >> (istream & flujo, const PoliReg & p);
     
     void agregaVertice();
     void eliminaVertice();
-    void expande(int delta);
-    void contrae(int delta);
+    void expande(const int & delta);
+    void contrae(const int & delta);
     float perimetro() const;
-    void rotar(float rads);
+    void rotar(const float & rads);
     bool colision(const PoliReg & otro) const;
-    void mover(float dx, float dy);
-
+    void mover(const float & dx, const float & dy);
     float getRadio() const;
     int getLados() const;
     Punto2D getVertice(const int & pos) const;
-    Punto2D getCentro() const;
+
+    PoliReg & operator = (const PoliReg & rhs);
 };

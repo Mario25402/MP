@@ -10,7 +10,6 @@
 #include "PoliReg.h"
 #include <cassert>
 #include <cstdlib>
-#include <cmath>
 
 using namespace std;
 
@@ -50,10 +49,11 @@ void test3(){
   PoliReg pol3(3, centro, radio);
   double perimRef = pol3.perimetro();
   
-  for(int i = 0; i < 11; i++){
+  for(int i = 0; i < 10; i++){
      pol3.expande(10);
      cout << "Radio: " << pol3.getRadio() << " Perimetro " << pol3.perimetro() << endl;  
     }
+  
     
   for(int i = 0; i < 10; i++){
      pol3.contrae(10);
