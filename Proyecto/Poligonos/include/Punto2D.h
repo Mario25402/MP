@@ -50,6 +50,10 @@ public:
 
     friend ostream & operator << (ostream & flujo, const Punto2D & p);
     friend istream & operator >> (istream & flujo, const Punto2D & p);
+    
+    Punto2D & operator = (const Punto2D & otro);
+    bool operator == (const Punto2D & rhs);
+    bool operator != (const Punto2D & rhs);
 };
 
 #endif

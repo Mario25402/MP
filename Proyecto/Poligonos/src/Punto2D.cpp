@@ -94,3 +94,18 @@ istream & operator >> (istream & flujo, const Punto2D & p){
 
     return flujo;
 }
+
+Punto2D & Punto2D::operator = (const Punto2D & otro){
+    this->x = otro.x;
+    this->y = otro.y;
+    
+    return *this;
+}
+
+bool Punto2D::operator == (const Punto2D & rhs){
+    return (this->x == rhs.x and this->y == rhs.y);
+}
+
+bool Punto2D::operator != (const Punto2D & rhs){
+    return !(*this == rhs);
+}

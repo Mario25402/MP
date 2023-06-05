@@ -1,6 +1,7 @@
 #include "PoliReg.h"
 #include <cmath>
 #include <iostream>
+#include <cassert>
 using namespace std;
 
 const float PoliReg::MAX_RADIO = 200.0;
@@ -11,7 +12,7 @@ const int PoliReg::MIN_VERT = 3;
 /**************/
 
 void PoliReg::reservaMemoria(int tam){
-    if (tam != 0)
+    if (tam > 0)
         vertices = new Punto2D [tam];
 }
 
@@ -20,22 +21,20 @@ void PoliReg::liberaMemoria(){
     vertices = 0;
 }
 
-void PoliReg::generaVertices(){
-    if (N >= MIN_VERT){
-        float alpha = 360 / N;
-        float radianes = alpha * M_PI / 180;
-        
-        for (int i = 0; i < N; ++i){
-            vertices[i] = Punto2D (radio, 0);
-            
-            if (i != 0)
-                vertices[i].rotar(centro, i*radianes);
-        }
-    }
+void PoliReg::redimensiona(int tam){
+    Punto2D *aux = new Punto2D[tam];
+    
+    for (int i = 0; i < tam-1; ++i)
+        aux[i] = vertices[i]; 
+    
+    liberaMemoria();
+    vertices = aux;
 }
 
+/**************/
+
 PoliReg & PoliReg::operator = (const PoliReg & rhs){
-    if (*this != rhs){
+    if (this != &rhs){
         liberaMemoria();
 
         N = rhs.N;
@@ -44,8 +43,9 @@ PoliReg & PoliReg::operator = (const PoliReg & rhs){
         
         reservaMemoria(rhs.N);
         
-        for (int i = 0; i < N; ++i)
+        for (int i = 0; i < N; ++i){
             vertices[i] = rhs.vertices[i];
+        }
     }
     
     return *this;
@@ -57,29 +57,21 @@ bool PoliReg::operator == (const PoliReg & rhs) const{
     if (this->getLados() == rhs.getLados()){
         iguales = true;
         
-        for (int i = 0; i < N and !iguales; ++i){
-            if (this->vertices[i].getX() != rhs.vertices[i].getX() or
-                this->vertices[i].getY() != rhs.vertices[i].getY())
+        for (int i = 0; i < N and iguales; ++i){
+            if (this->vertices[i] != rhs.vertices[i])
                 iguales = false;
         }
     }
     
     return iguales;
-
-    /*if (this->centro.getX() == rhs.centro.getX() and
-        this->centro.getY() == rhs.centro.getY() and
-        this->N == rhs.N and this->radio == rhs.radio){*/
 }
 
 bool PoliReg::operator != (const PoliReg & rhs) const{
     return !(*this == rhs);
 }
 
-bool PoliReg::operator < (const PoliReg & rhs){
-    if (this->perimetro() < rhs.perimetro())
-        return true;
-    else
-        return false;
+bool PoliReg::operator < (const PoliReg & rhs){    
+    return this->perimetro() < rhs.perimetro();
 }
 
 ostream & operator << (ostream & flujo, const PoliReg & p){
@@ -90,6 +82,8 @@ ostream & operator << (ostream & flujo, const PoliReg & p){
     for (int i = 0; i < p.getLados(); ++i)
         flujo << p.getVertice(i) << endl;
 
+    flujo << endl;
+    
     return flujo;
 }
 
@@ -119,16 +113,26 @@ PoliReg::PoliReg(){
     N = MIN_VERT;
     radio = MIN_RADIO;
     centro = Punto2D (0,0);
+    vertices = 0;
+    
     reservaMemoria(N);
+    generaVertices();
 }
 
-PoliReg::PoliReg(const PoliReg & otro){
-    *this = otro;
+PoliReg::PoliReg(const PoliReg & otro):centro(otro.centro){
+    N = otro.N;
+    radio = otro.radio;
+    vertices = 0;
+
+    reservaMemoria(otro.N);
+
+    for (int i = 0; i < N; ++i){
+        vertices[i] = otro.vertices[i];
+    }
 }
 
-PoliReg::PoliReg(int nroVert, const Punto2D & centro, float r){
+PoliReg::PoliReg(int nroVert, const Punto2D & center, float r):centro(center){
     N = nroVert;
-    this->centro = centro;
     
     if (r < MIN_RADIO or r > MAX_RADIO) r = MIN_RADIO;
     else radio = r;
@@ -138,60 +142,55 @@ PoliReg::PoliReg(int nroVert, const Punto2D & centro, float r){
 
 PoliReg::~PoliReg(){
     liberaMemoria();
-    N = MIN_VERT;
-    radio = MIN_RADIO;
-    centro = Punto2D (0,0);
 }
 
-void PoliReg::agregaVertice(){
+/**************/
+
+void PoliReg::generaVertices(){
+    liberaMemoria();
+    float angulo = 2 * M_PI / N;
+    
+    for (int i = 0; i < N; ++i){
+        int x = centro.getX() + radio * cos(i * angulo);
+        int y = centro.getY() + radio * sin(i * angulo);
+        Punto2D vertice(x,y);
+        
+        this->vertices[i] = vertice;
+    }
+}
+
+void PoliReg::agregaVertice(){ 
     if (N+1 <= MAX_VERT){
-        N++;
-        Punto2D *aux = new Punto2D[N];
-        
-        for (int i = 0; i < N-1; i++)
-            aux[i] = vertices[i];
-        
-        liberaMemoria();
-        vertices = aux;
+        redimensiona(this->N + 1);
+        generaVertices();
     }
 }
 
 void PoliReg::eliminaVertice(){
     if (N-1 >= MIN_VERT){
-        N--;
-        Punto2D *aux = new Punto2D[N];
-        
-        for (int i = 0; i < N; i++)
-            aux[i] = vertices[i];
-        
-        liberaMemoria();
-        vertices = aux;
+        redimensiona(this->N - 1);
+        generaVertices();
+    }
+}
+
+void PoliReg::modificaTam(int delta){
+    if (radio + delta <= MAX_RADIO and radio + delta >= MIN_RADIO){
+        radio += delta;
+        generaVertices();
     }
 }
 
 void PoliReg::expande(int delta){
-    if (delta > 0){
-        if (radio + delta <= MAX_RADIO){
-            radio += delta;
-            generaVertices();
-        }
-    }
+    modificaTam(delta);
 }
 
 void PoliReg::contrae(int delta){
-    if (delta > 0){
-        if (radio - delta >= MIN_RADIO){
-            radio -= delta;
-            generaVertices();
-        }
-    }
+    modificaTam(delta);
 }
 
 float PoliReg::perimetro() const{
-    float angulo = 2 * M_PI / N;
-    float lado = 2 * radio * sin(angulo / 2);
-    
-    return N * lado;
+    float lado = this->vertices[0].distancia(this->vertices[1]);
+    return lado * N;
 }
 
 void PoliReg::rotar(float rads){
@@ -202,7 +201,7 @@ void PoliReg::rotar(float rads){
 bool PoliReg::colision(const PoliReg & otro) const{
     bool chocan = false;
     
-    if (*this != otro){
+    if (this != &otro){
         int distancia = this->centro.distancia(otro.centro);
         int radios = this->radio + otro.radio;
         
@@ -213,6 +212,8 @@ bool PoliReg::colision(const PoliReg & otro) const{
 }
 
 void PoliReg::mover(float dx, float dy){
+    this->centro.mover(dx, dy);
+    
     for (int i = 0; i < N; ++i)
         vertices[i].mover(dx, dy);
 }
@@ -225,7 +226,8 @@ int PoliReg::getLados() const{
     return N;
 }
 
-Punto2D PoliReg::getVertice(const int & pos) const{
+Punto2D PoliReg::getVertice(const int pos) const{
+    assert(pos >= MAX_VERT or pos <= MIN_VERT);
     return vertices[pos];
 }
 

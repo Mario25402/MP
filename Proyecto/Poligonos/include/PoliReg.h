@@ -17,11 +17,9 @@ private:
     
     void reservaMemoria(int tam);
     void liberaMemoria();
-    void generaVertices();
+    void redimensiona(int tam);
+    void modificaTam(int delta);
     
-    bool operator == (const PoliReg & rhs) const;
-    bool operator != (const PoliReg & rhs) const;
-
 public:
     PoliReg();
     PoliReg(const PoliReg & otro);
@@ -30,10 +28,13 @@ public:
 
     PoliReg & operator = (const PoliReg & rhs);
     bool operator < (const PoliReg & rhs);
+    bool operator == (const PoliReg & rhs) const;
+    bool operator != (const PoliReg & rhs) const;
 
     friend std::ostream & operator << (ostream & flujo, const PoliReg & p);
     friend std::istream & operator >> (istream & flujo, const PoliReg & p);
     
+    void generaVertices();
     void agregaVertice();
     void eliminaVertice();
     void expande(int delta);
@@ -45,6 +46,6 @@ public:
 
     float getRadio() const;
     int getLados() const;
-    Punto2D getVertice(const int & pos) const;
+    Punto2D getVertice(const int pos) const;
     Punto2D getCentro() const;
 };

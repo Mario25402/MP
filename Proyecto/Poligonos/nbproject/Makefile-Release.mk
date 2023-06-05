@@ -36,8 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/src/Asteroide.o \
 	${OBJECTDIR}/src/PoliReg.o \
-	${OBJECTDIR}/src/Punto2D.o
+	${OBJECTDIR}/src/Punto2D.o \
+	${OBJECTDIR}/src/minijuego.o
 
 
 # C Compiler Flags
@@ -69,6 +71,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
+${OBJECTDIR}/src/Asteroide.o: src/Asteroide.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Asteroide.o src/Asteroide.cpp
+
 ${OBJECTDIR}/src/PoliReg.o: src/PoliReg.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
@@ -78,6 +85,11 @@ ${OBJECTDIR}/src/Punto2D.o: src/Punto2D.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Punto2D.o src/Punto2D.cpp
+
+${OBJECTDIR}/src/minijuego.o: src/minijuego.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/minijuego.o src/minijuego.cpp
 
 # Subprojects
 .build-subprojects:
