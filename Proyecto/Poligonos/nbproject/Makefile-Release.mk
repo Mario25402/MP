@@ -35,11 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/src/Asteroide.o \
+	${OBJECTDIR}/src/Funciones.o \
 	${OBJECTDIR}/src/PoliReg.o \
 	${OBJECTDIR}/src/Punto2D.o \
-	${OBJECTDIR}/src/minijuego.o
+	${OBJECTDIR}/src/mainMinijuego.o
 
 
 # C Compiler Flags
@@ -66,15 +66,15 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/poligonos: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/poligonos ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/main.o: main.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
-
 ${OBJECTDIR}/src/Asteroide.o: src/Asteroide.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Asteroide.o src/Asteroide.cpp
+
+${OBJECTDIR}/src/Funciones.o: src/Funciones.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Funciones.o src/Funciones.cpp
 
 ${OBJECTDIR}/src/PoliReg.o: src/PoliReg.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -86,10 +86,10 @@ ${OBJECTDIR}/src/Punto2D.o: src/Punto2D.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Punto2D.o src/Punto2D.cpp
 
-${OBJECTDIR}/src/minijuego.o: src/minijuego.cpp
+${OBJECTDIR}/src/mainMinijuego.o: src/mainMinijuego.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/minijuego.o src/minijuego.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/mainMinijuego.o src/mainMinijuego.cpp
 
 # Subprojects
 .build-subprojects:

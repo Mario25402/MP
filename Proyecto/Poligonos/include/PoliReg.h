@@ -19,6 +19,7 @@ private:
     void liberaMemoria();
     void redimensiona(int tam);
     void modificaTam(int delta);
+    void copia(const PoliReg & otro);
     
 public:
     PoliReg();

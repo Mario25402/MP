@@ -1,5 +1,4 @@
 #include "PoliReg.h"
-#include "Punto2D.h"
 
 class Asteroide{
 private:
@@ -13,13 +12,17 @@ public:
     
     void mover();
     void rotar();
-    void moverNave(bool sentido);
     
     void setVelocidad(const Punto2D & nuevaVel);
     void setRoca(const PoliReg & nuevaRoca);
     
-    bool colision(const Asteroide & otro);
+    bool colision(const Asteroide & otro) const;
     
-    Punto2D getVelocidad();
-    PoliReg getRoca();
+    Punto2D & getVelocidad();
+    PoliReg & getRoca();
+    float getRotacion();
+    Punto2D getCentro();
+    
+    
+    Asteroide & operator = (const Asteroide & rhs);
 };

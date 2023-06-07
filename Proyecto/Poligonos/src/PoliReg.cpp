@@ -31,21 +31,31 @@ void PoliReg::redimensiona(int tam){
     vertices = aux;
 }
 
+void PoliReg::modificaTam(int delta){
+    if (radio + delta <= MAX_RADIO and radio + delta >= MIN_RADIO){
+        radio += delta;
+        generaVertices();
+    }
+}
+
+void PoliReg::copia(const PoliReg & otro){
+    N = otro.N;
+    centro = otro.centro;
+    radio = otro.radio;
+
+    reservaMemoria(otro.N);
+
+    for (int i = 0; i < N; ++i) {
+        vertices[i] = otro.vertices[i];
+    }
+}
+
 /**************/
 
-PoliReg & PoliReg::operator = (const PoliReg & rhs){
+PoliReg & PoliReg::operator=(const PoliReg & rhs){
     if (this != &rhs){
         liberaMemoria();
-
-        N = rhs.N;
-        centro = rhs.centro;
-        radio = rhs.radio;
-        
-        reservaMemoria(rhs.N);
-        
-        for (int i = 0; i < N; ++i){
-            vertices[i] = rhs.vertices[i];
-        }
+        copia(rhs);
     }
     
     return *this;
@@ -119,25 +129,22 @@ PoliReg::PoliReg(){
     generaVertices();
 }
 
-PoliReg::PoliReg(const PoliReg & otro):centro(otro.centro){
-    N = otro.N;
-    radio = otro.radio;
-    vertices = 0;
-
-    reservaMemoria(otro.N);
-
-    for (int i = 0; i < N; ++i){
-        vertices[i] = otro.vertices[i];
-    }
+PoliReg::PoliReg(const PoliReg & otro){
+    //liberaMemoria();
+    copia(otro);
 }
 
 PoliReg::PoliReg(int nroVert, const Punto2D & center, float r):centro(center){
+    if (nroVert < MIN_VERT) nroVert = MIN_VERT;
+    else if (nroVert > MAX_VERT) nroVert = MAX_VERT;
     N = nroVert;
     
-    if (r < MIN_RADIO or r > MAX_RADIO) r = MIN_RADIO;
-    else radio = r;
+    if (r < MIN_RADIO) r = MIN_RADIO;
+    else if (r > MAX_RADIO) r = MAX_RADIO;
+    radio = r;
     
     reservaMemoria(N);
+    generaVertices();
 }
 
 PoliReg::~PoliReg(){
@@ -147,7 +154,7 @@ PoliReg::~PoliReg(){
 /**************/
 
 void PoliReg::generaVertices(){
-    liberaMemoria();
+    //liberaMemoria();
     float angulo = 2 * M_PI / N;
     
     for (int i = 0; i < N; ++i){
@@ -169,13 +176,6 @@ void PoliReg::agregaVertice(){
 void PoliReg::eliminaVertice(){
     if (N-1 >= MIN_VERT){
         redimensiona(this->N - 1);
-        generaVertices();
-    }
-}
-
-void PoliReg::modificaTam(int delta){
-    if (radio + delta <= MAX_RADIO and radio + delta >= MIN_RADIO){
-        radio += delta;
         generaVertices();
     }
 }
