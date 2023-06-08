@@ -10,7 +10,6 @@
 #include "PoliReg.h"
 #include <cassert>
 #include <cstdlib>
-#include <algorithm>
 
 using namespace std;
 
@@ -24,6 +23,28 @@ void mostrar(const PoliReg & conj){
     cout << "(" << conj.getVertice(tam-1) << ")}\n" << endl;
 }
 
+void test0(){
+    cout << "Pruebas varias primera parte" << endl;
+    
+    PoliReg a1;
+    int k = a1.getLados();
+    a1.eliminaVertice();
+    assert(k == a1.getLados());
+    
+    a1 = a1;
+    
+    assert(!a1.colision(a1));
+    
+    PoliReg a2(300, Punto2D(100, 100), 20);
+    k = a2.getLados();
+    a2.agregaVertice();
+    assert(a2.getLados() == k);
+    
+    
+
+
+    
+}
 void test1(){
     cout << "Prueba constructor de copia" << endl;
     
@@ -55,16 +76,29 @@ void test2(){
 
 
 void test3(){
-    cout << "Prueba operator>>" << endl;
+    cout << "Prueba 1 operator>>" << endl;
             
-    PoliReg a1;
-    PoliReg a2(10, Punto2D(), 50);
+    PoliReg a1(30, Punto2D(), 50);
+    cin >> a1;
+    cout << a1 << endl;
+    cin >> a1;
+    cout << a1 << endl;
+}
+
+
+void test4(){
+    cout << "Prueba 1 operator>>" << endl;
+            
+    PoliReg a1(30, Punto2D(), 50);
+    PoliReg a2;
+    
     cin >> a1 >> a2;
     cout << a1 << endl;
     cout << a2 << endl;
 }
 
-void test4(){
+
+void test5(){
     cout << "Prueba operator==" << endl;
             
     PoliReg a1(4, Punto2D(), 20);
@@ -83,22 +117,26 @@ void test4(){
 }
 
 
-void test5(){
+void test6(){
     cout << "Prueba operator<" << endl;
             
     PoliReg a1(4, Punto2D(), 100);
-    PoliReg a2(4, Punto2D(), 100);
-    //PoliReg a2(a1);
+    PoliReg a2(a1);
     
     a1 = a2;
+    cout << "!(a1 < a2)" << endl;
     cout << a1.perimetro() << ", " << a2.perimetro() << endl;
     assert(!(a1 < a2));
     a2.expande(10);
     
+   
+    cout << "(a1 < a2)" << endl;
     cout << a1.perimetro() << ", " << a2.perimetro() << endl;
     assert(a1 < a2);
     
     a2.contrae(11);
+    
+    cout << "(a1 > a2)" << endl;
     cout << a1.perimetro() << ", " << a2.perimetro() << endl;
     assert(a2 < a1);
     
@@ -148,22 +186,21 @@ void ordenar(){
     delete []v;
 }
 
-/******************************************************************************/
-
 int main(int argc, char ** argv){
     
  int opcion = atoi(argv[1]);
  
  switch (opcion){
+     case 0: {test0(); break;}
      case 1: {test1(); break;}
      case 2: {test2(); break;}
-     // para la prueba 3 utiliza el fichero datos.txt para la 
+     // para las pruebas 3 y 4 utiliza el fichero datos.txt para la 
      // redireccion de la entrada
      case 3: {test3(); break;}
      case 4: {test4(); break;}
      case 5: {test5(); break;}
-     case 6: {ordenar(); break;}
-     
+     case 6: {test6(); break;}
+     case 7: {ordenar(); break;}     
  }   
 
   return 0;

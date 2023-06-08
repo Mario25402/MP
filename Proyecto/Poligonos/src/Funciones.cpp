@@ -28,13 +28,12 @@ void MoverMisiles(Asteroide* disparos, int util){
 
 void ColisionMB(Asteroide* disparos, int & util){
     if (disparos[INICIO].getCentro().getY() <=
-            disparos[INICIO].getRoca().getRadio()) {
+        disparos[INICIO].getRoca().getRadio()) {
 
         for (int i = 1; i <= util; i++)
             disparos[i - 1] = disparos[i];
 
         util--;
-        cout << "Misil perdido" << endl;
     }
 }
 
@@ -52,20 +51,38 @@ void ColisionAA(Asteroide* campo, int util){
 
 void ColisionAB(Asteroide* campo, int util){
     for (int i = 0; i < util; ++i) {
-        if (campo[i].getRoca().getCentro().getX() <
-                campo[i].getRoca().getRadio() or
-                campo[i].getRoca().getCentro().getY() <
-                campo[i].getRoca().getRadio()) {
-
-            Punto2D actual = campo[i].getVelocidad();
-            Punto2D nueva = Punto2D(-actual.getX(), -actual.getY());
+        Punto2D nueva;
+        Punto2D actual = campo[i].getVelocidad();
+        
+        // Choque izquierdo
+        if (campo[i].getCentro().getX() <= campo[i].getRoca().getRadio()){
+            nueva = Punto2D(actual.getX(), -actual.getY());
+            campo[i].setVelocidad(nueva);
+        }
+        
+        // Choque superior
+        if (campo[i].getCentro().getY() <= campo[i].getRoca().getRadio()){
+           nueva = Punto2D(-actual.getX(), actual.getY());
+           campo[i].setVelocidad(nueva);
+        }
+        
+        // Choque derecho
+        if (campo[i].getCentro().getX() + campo[i].getRoca().getRadio() >= WIDTH){
+            nueva = Punto2D(actual.getX(), -actual.getY());
+            campo[i].setVelocidad(nueva);
+        }
+        
+        // Choque inferior
+        if (campo[i].getCentro().getY() + campo[i].getRoca().getRadio() >= HEIGHT){
+           nueva = Punto2D(-actual.getX(), actual.getY());
+           campo[i].setVelocidad(nueva);
         }
     }
 }
 
-void ColisionMA(Asteroide* campo, int & utilA, Asteroide* disparos, int & utilD){
+void ColisionMA(Asteroide* disparos, int & utilD, Asteroide* campo, int & utilA){
     for (int i = 0; i < utilD; i++) {
-        for (int j = utilA - 1; j <= 0; j--) {
+        for (int j = utilA - 1; j >= 0; j--) {
             if (disparos[i].colision(campo[j])) {
 
                 // Eliminar misil
@@ -74,19 +91,21 @@ void ColisionMA(Asteroide* campo, int & utilA, Asteroide* disparos, int & utilD)
 
                 utilD--;
 
-                // Modificar asteroide
+                // Modificar asteroide > 3 lados
                 if (campo[j].getRoca().getLados() > 3) {
                     int lados = campo[j].getRoca().getLados() - 1;
-                    Punto2D centro = campo[j].getRoca().getCentro();
+                    Punto2D centro = campo[j].getCentro();
                     float radio = campo[j].getRoca().getRadio();
 
                     PoliReg nueva(lados, centro, radio);
                     campo[j].setRoca(nueva);
                 }
                 
+                // Eliminar asteroide 3 lados
                 else {
-                    if (j != utilA)
-                        campo[j] = campo[utilA];
+                    // Si no es el ultimo
+                    if (j != utilA-1)
+                        campo[j] = campo[utilA-1];
 
                     utilA--;
                 } // else

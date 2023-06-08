@@ -45,48 +45,47 @@ int main(int argc, char** argv) {
     
 
     // Main game loop
-    while (!WindowShouldClose()) // Detect window close button or ESC key
+    bool fin = false;
+    
+    while (!WindowShouldClose() and !fin) // Detect window close button or ESC key
     {
         // Update
         //-----------------------------------------------------
         
         // Mover y rotar cada asteroide
         MoverAsteroides(campoAsteroides, util_asteroides);
-        
+
         // Mover cada misil
-        //MoverMisiles(disparos, util_disparos);
-        
+        MoverMisiles(disparos, util_disparos);
+
         // Comprobar y gestionar colision misil-borde
-        //ColisionMB(disparos, util_disparos);
-        
+        ColisionMB(disparos, util_disparos);
+
         // Comprobar colisiones asteroide-asteroide
-        //ColisionAA(campoAsteroides, util_asteroides);
-        
+        ColisionAA(campoAsteroides, util_asteroides);
+
         // Comprobar y gestionar colisiones asteroide-borde
-        ColisionAB(campoAsteroides, util_asteroides); // NO VA
-        
+        ColisionAB(campoAsteroides, util_asteroides);
+
         // Comprobar y gestionar colisiones misil-asteroide
-        //ColisionMA(disparos, util_disparos, campoAsteroides, util_asteroides); // SIN PROBAR
-        
+        ColisionMA(disparos, util_disparos, campoAsteroides, util_asteroides);
+
         // Comprobar y gestionar colisiones nave-asteroide
         bool choque_nave = ChoqueNA(nave, campoAsteroides, util_asteroides);
-        
+
         // Comprobar y gestionar pulsaciones de teclas
         if (IsKeyDown(KEY_A) or IsKeyPressed(KEY_A))
             moverNave(nave, false);
-            
+
         if (IsKeyDown(KEY_D) or IsKeyPressed(KEY_D))
             moverNave(nave, true);
-            
+
         if (IsKeyPressed(KEY_W))
             disparar(nave, disparos, util_disparos);
-        
+
         // Comprobar y gestionar fin del juego
-        bool fin = false;
-        
-        if (choque_nave or util_asteroides == 0)
-           fin = true; // Dibujar un mensaje, sleep y salir
-        
+        if (choque_nave or util_asteroides == 0) fin = true;
+                
         
         framesCounter++;
         //-----------------------------------------------------
@@ -94,7 +93,6 @@ int main(int argc, char** argv) {
         // Draw
         //-----------------------------------------------------
         BeginDrawing();
-
         ClearBackground(RAYWHITE);
         
         // Dibujar asteroides
@@ -102,36 +100,34 @@ int main(int argc, char** argv) {
             Vector2 centro = {campoAsteroides[i].getCentro().getX(),
                               campoAsteroides[i].getCentro().getY()};
             
-            /*cout << "X: " << nave.getCentro().getX() << " "
-             << "Y: " << nave.getCentro().getY() << " "
-             << "radio: " << nave.getRoca().getRadio() << " "
-             << "rotacion: " << nave.getRotacion() << endl;*/
-            
             DrawPolyLines(centro, campoAsteroides[i].getRoca().getLados(),
                           campoAsteroides[i].getRoca().getRadio(),
                           campoAsteroides[i].getRotacion(), BROWN);
         }
         
-        //cout << endl;
-        
         // Dibujar misiles
-        /*for (int i = 0; i < util_disparos; i++){
+        for (int i = 0; i < util_disparos; i++){
             Vector2 centro = {disparos[i].getCentro().getX(),
                               disparos[i].getCentro().getY()};
 
             DrawPolyLines(centro, disparos[i].getRoca().getLados(),
                           disparos[i].getRoca().getRadio(),
                           disparos[i].getRotacion(), RED);
-        }*/
+        }
         
         // Dibujar nave
         Vector2 centro = {nave.getCentro().getX(), nave.getCentro().getY()};
 
-        DrawPolyLines(centro, nave.getRoca().getLados(),
-                      nave.getRoca().getRadio(), nave.getRotacion(), BLUE);
-
+        DrawPolyLinesEx(centro, nave.getRoca().getLados(),
+                      nave.getRoca().getRadio(), nave.getRotacion(), 20, BLUE);
+        
+        if (fin){ 
+            cout << "GAME OVER!" << endl;
+            DrawText("GAME OVER!", 350, 200, 30, GRAY);
+        }
+        
+        
         DrawFPS(10, 10);
-
         EndDrawing();
         //-----------------------------------------------------
     }

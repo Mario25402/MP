@@ -89,7 +89,7 @@ ${OBJECTDIR}/src/Punto2D.o: src/Punto2D.cpp
 ${OBJECTDIR}/src/mainMinijuego.o: src/mainMinijuego.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Iinclude -Iinclude -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/mainMinijuego.o src/mainMinijuego.cpp
+	$(COMPILE.cc) -g -Iinclude -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/mainMinijuego.o src/mainMinijuego.cpp
 
 # Subprojects
 .build-subprojects:

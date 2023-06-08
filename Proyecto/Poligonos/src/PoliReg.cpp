@@ -185,7 +185,7 @@ void PoliReg::expande(int delta){
 }
 
 void PoliReg::contrae(int delta){
-    modificaTam(delta);
+    modificaTam(-delta);
 }
 
 float PoliReg::perimetro() const{
@@ -227,8 +227,8 @@ int PoliReg::getLados() const{
 }
 
 Punto2D PoliReg::getVertice(const int pos) const{
-    assert(pos >= MAX_VERT or pos <= MIN_VERT);
-    return vertices[pos];
+    if (pos < MAX_VERT and pos > MIN_VERT)
+        return vertices[pos];
 }
 
 Punto2D PoliReg::getCentro() const{

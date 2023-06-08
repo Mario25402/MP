@@ -1,8 +1,11 @@
 #include "Asteroide.h"
 
 const int INICIO = 0;
-const int MAX_DISPAROS = 10;
-const int MAX_ASTEROIDES = 20;
+const int MAX_DISPAROS = 20;
+const int MAX_ASTEROIDES = 40;
+
+const int WIDTH = 800;
+const int HEIGHT = 450;
 
 void MoverAsteroides(Asteroide* campo, int util);
 void MoverMisiles(Asteroide* disparos, int util);

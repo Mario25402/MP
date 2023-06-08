@@ -10,10 +10,10 @@ Asteroide::Asteroide(){
     int radio = rand() % 16 + 2;
     float coordX = rand()% 801 + 1;
     float coordY = rand()% 451 + 1;
-    float velX = rand() % 7; // 0 a 6
-    float velY = rand() % 7;
-    velX -= 3; // -3 a 3
-    velY -= 3;
+    float velX = rand() % 5; // 0 a 4
+    float velY = rand() % 5;
+    velX -= 2; // -2 a 2
+    velY -= 2;
     
     veloc = Punto2D(velX,velY);
     this->roca = PoliReg (lados, Punto2D(coordX, coordY), radio);
